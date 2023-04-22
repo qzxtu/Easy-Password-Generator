@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de contraseñas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 0.8rem 1.6rem;
+      border-radius: 0.4rem;
+      text-decoration: none;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .password-input {
+      width: 30rem;
+      font-size: 1.2rem;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 0.4rem;
+      background-color: #f1f1f1;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generador de contraseñas</h1>
+  <a href="#" class="button" id="generate-password">Generar Contraseña</a>
+  <input type="text" class="password-input" id="password" readonly>
+  
+  <script>
+    const generatePassword = (length, includeSpecialCharacters) => {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" + (includeSpecialCharacters ? "!@#$%" : "");
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return password;
+    };
+
+    const copyPasswordToClipboard = () => {
+      const passwordInput = document.getElementById("password");
+      passwordInput.select();
+      passwordInput.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+    };
+
+    const generatePasswordButton = document.getElementById("generate-password");
+    const passwordInput = document.getElementById("password");
+
+    generatePasswordButton.addEventListener("click", () => {
+      const includeSpecialCharacters = confirm("¿Desea incluir caracteres especiales en la contraseña?") || false;
+      const length = parseInt(prompt("¿Cuántos caracteres desea que tenga la contraseña?")) || 12;
+      const password = generatePassword(length, includeSpecialCharacters);
+      passwordInput.value = password;
+    });
+
+    passwordInput.addEventListener("click", () => {
+      copyPasswordToClipboard();
+    });
+  </script>
+</body>
+</html>
